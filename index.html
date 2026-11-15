@@ -146,6 +146,24 @@ textarea,input{font-family:inherit;-webkit-user-select:text;user-select:text}
 }
 @media (orientation:landscape) and (min-width:1000px){ .player{width:390px} .seg .lb{display:inline} #ta{font-size:17px;padding-left:28px;padding-right:28px} .chips,.sech{padding-left:28px} }
 
+/* computer (mouse) only: player on top, lyrics underneath, one centered column */
+@media (hover:hover) and (pointer:fine){
+  #work,#work.right{flex-direction:column;width:100%;max-width:760px;margin:0 auto;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+  .player,#work.right .player{width:auto;flex-shrink:0;overflow:visible;border:none;border-bottom:1px solid var(--line);gap:10px;padding:14px 20px}
+  .hd .logo{display:flex!important}
+  .onlyP{display:flex!important}
+  .onlyL{display:none!important}
+  .wave{height:72px}
+  .tb{padding:0 14px}
+  .play{width:64px;height:64px}
+  .seg .lb{display:inline}
+  .seg button{height:36px;min-width:34px;padding:0 9px}
+  .phr button{height:34px}.bars button{height:36px}
+  .chips,.sech{padding-left:20px}
+  #ta{font-size:18px;padding-left:20px;padding-right:20px}
+  .ft{padding-left:20px}
+}
+
 /* sheets */
 #shade{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;flex-direction:column;justify-content:flex-end;z-index:20}
 .sheet{background:var(--panel);border-radius:22px 22px 0 0;border-top:1px solid var(--line);padding:10px 16px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;max-height:92%;overflow-y:auto;-webkit-overflow-scrolling:touch;width:100%;max-width:560px;margin:0 auto}
