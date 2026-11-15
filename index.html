@@ -183,6 +183,21 @@ textarea,input{font-family:inherit;-webkit-user-select:text;user-select:text}
 .note b{display:block;font-size:14px;color:var(--soft);margin-bottom:3px}
 .kv{font-size:13px;color:var(--dim);font-variant-numeric:tabular-nums}
 #work.typing .ft{display:none}
+/* while typing on a phone: one slim player bar, no section buttons, smaller lyrics */
+@media (orientation:portrait),(max-width:599px){
+  #work.typing.compact .player{position:relative;padding:6px 10px;gap:0}
+  #work.typing.compact .hd{position:absolute;right:10px;top:6px;gap:0}
+  #work.typing.compact .hd>*:not(#btnFold){display:none!important}
+  #work.typing.compact #btnFold{width:36px;height:36px;border-radius:10px}
+  #work.typing.compact .tr{padding-right:44px;gap:4px;justify-content:flex-start}
+  #work.typing.compact .tb{height:36px;padding:0 8px;border-radius:10px;font-size:12px}
+  #work.typing.compact .play{width:40px;height:40px}
+  #work.typing.compact .play svg{width:18px;height:18px}
+  #work.typing.compact .chips{display:none}
+  #work.typing.compact .sech{padding-top:4px}
+  #work.typing.compact .sech button{height:32px}
+  #work.typing #ta{font-size:15px;line-height:1.5}
+}
 #toast{position:absolute;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#2A2A2E;color:var(--text);font-size:13px;padding:10px 14px;border-radius:10px;z-index:30;max-width:86%;text-align:center;border:1px solid #3F3F46}
 </style>
 </head>
