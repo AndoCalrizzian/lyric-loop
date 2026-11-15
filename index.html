@@ -664,12 +664,12 @@ $('btnGrid').onclick=function(){
   upd()};
 
 /* layout behaviour */
-var ui=LS.get('ll.ui',{side:'left',fold:false}),typing=false;
+var ui=LS.get('ll.ui',{side:'left',fold:false}),typing=false,typeOpen=false;
 function coarse(){try{return matchMedia('(pointer:coarse)').matches}catch(e){return false}}
-function applyLayout(){var w=$('work');w.classList.toggle('right',ui.side==='right');var c=!!ui.fold;w.classList.toggle('compact',c);w.classList.toggle('typing',typing&&coarse());$('btnDone').hidden=!(typing&&coarse());$('btnSec').hidden=typing&&coarse();
+function applyLayout(){var w=$('work');w.classList.toggle('right',ui.side==='right');var c=ui.fold||(typing&&coarse()&&!typeOpen);w.classList.toggle('compact',c);w.classList.toggle('typing',typing&&coarse());$('btnDone').hidden=!(typing&&coarse());$('btnSec').hidden=typing&&coarse();
   $('btnFold').setAttribute('aria-expanded',c?'false':'true');$('btnFold').setAttribute('aria-label',c?'Expand player':'Shrink player');
   $('foldIc').style.transform=c?'rotate(180deg)':'';requestAnimationFrame(layoutWave)}
-$('btnFold').onclick=function(){var c=$('work').classList.contains('compact');ui.fold=!c;LS.set('ll.ui',ui);applyLayout()};
+$('btnFold').onclick=function(){var c=$('work').classList.contains('compact');if(typing&&coarse()){typeOpen=c}else ui.fold=!c;LS.set('ll.ui',ui);applyLayout()};
 $('btnDone').onclick=function(){$('ta').blur()};
 $('btnSide').onclick=function(){ui.side=ui.side==='right'?'left':'right';LS.set('ll.ui',ui);applyLayout()};
 var kbGuess=false,baseH=0,kbT=null;
@@ -677,7 +677,7 @@ function viewH(){var vv=window.visualViewport;return vv?vv.height:window.innerHe
 function kbHeight(){var port=window.innerHeight>=window.innerWidth,sw=Math.min(screen.width,screen.height),sh=Math.max(screen.width,screen.height);return Math.round(port?sh*0.44:sw*0.58)}
 function startTyping(){if(typing)return;typing=true;baseH=viewH();kbGuess=coarse();fit();applyLayout();clearTimeout(kbT);kbT=setTimeout(checkKb,650)}
 function checkKb(){if(typing&&kbGuess&&baseH-viewH()>100){kbGuess=false;fit()}}
-function stopTyping(){typing=false;kbGuess=false;clearTimeout(kbT);fit();setTimeout(applyLayout,60)}
+function stopTyping(){typing=false;typeOpen=false;kbGuess=false;clearTimeout(kbT);fit();setTimeout(applyLayout,60)}
 /* shrink the layout before the keyboard appears, so the page has no reason to slide */
 $('ta').addEventListener('pointerdown',function(){if(coarse())startTyping()});
 $('ta').addEventListener('focus',startTyping);
