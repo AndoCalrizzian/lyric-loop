@@ -1,5 +1,5 @@
 /* Lyric Loop offline cache: tries the network first so updates show up, falls back to the saved copy offline. */
-const CACHE = 'lyric-loop-v2';
+const CACHE = 'lyric-loop-v3';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));

@@ -403,14 +403,15 @@ $('fText').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileRe
 $('btnExport').onclick=function(){
   flush();var txt=serialize(doc),name=fileName(doc).replace(/\.(md|lrc)$/i,'.txt');
   var file=null;try{file=new File([txt],name,{type:'text/plain'})}catch(e){}
-  var canShare=!!(file&&navigator.canShare&&navigator.canShare({files:[file]}));
+  var canShare=coarse()&&!!(file&&navigator.canShare&&navigator.canShare({files:[file]}));
   var s=sheet('<h2>Save a copy</h2><p>'+esc(name)+' · plain text with [Section] headers. Pick <b>Save to Files</b> to put it in iCloud Drive, On My iPhone or Google Drive.</p>'+
     '<button class="pb" id="exSave">'+(canShare?'Save or share .txt':'Download .txt')+'</button>'+
     '<button class="sb" id="exCopy">Copy all lyrics</button><p id="exMsg" role="status"></p>');
   $('exSave').onclick=function(){
-    if(canShare){navigator.share({files:[file],title:name}).then(function(){closeSheet();toast('Saved '+name)},function(e){if(!e||e.name!=='AbortError')$('exMsg').textContent='Could not open the share menu. Use Copy instead.'})}
-    else{try{var u=URL.createObjectURL(new Blob([txt],{type:'text/plain'})),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);closeSheet();toast('Downloaded '+name)}
-      catch(e){$('exMsg').textContent='Could not save a file here. Use Copy instead.'}}};
+    if(canShare){navigator.share({files:[file],title:name}).then(function(){closeSheet();toast('Saved '+name)},function(e){if(!e||e.name!=='AbortError')dl()})}
+    else dl()};
+  function dl(){{try{var u=URL.createObjectURL(new Blob([txt],{type:'text/plain'})),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);closeSheet();toast('Downloaded '+name)}
+      catch(e){$('exMsg').textContent='Could not save a file here. Use Copy instead.'}}}
   $('exCopy').onclick=function(){var done=function(){$('exMsg').textContent='Copied. Paste it into any app.'};
     try{navigator.clipboard.writeText(txt).then(done,fallback)}catch(e){fallback()}
     function fallback(){var t=document.createElement('textarea');t.value=txt;s.appendChild(t);t.select();try{document.execCommand('copy');done()}catch(e){$('exMsg').textContent='Could not copy on this device.'}t.remove()}}};
